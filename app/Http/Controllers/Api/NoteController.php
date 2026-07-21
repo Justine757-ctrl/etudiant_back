@@ -3,47 +3,50 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Note;
+use App\Models\Student;
 use Illuminate\Http\Request;
 
 class NoteController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // Récupérer toutes les notes
     public function index()
     {
-        //
+        return response()->json(Note::with('student')->get());
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // Ajouter une note à un étudiant
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'student_id' => 'required|exists:students,id',
+            'matiere'    => 'required|string',
+            'note'       => 'required|numeric|min:0|max:20', // Note entre 0 et 20
+        ]);
+
+        $note = Note::create($validated);
+
+        return response()->json($note, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    // Modifier une note
+    public function update(Request $request, Note $note)
     {
-        //
+        $validated = $request->validate([
+            'matiere' => 'sometimes|string',
+            'note'    => 'sometimes|numeric|min:0|max:20',
+        ]);
+
+        $note->update($validated);
+
+        return response()->json($note);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    // Supprimer une note
+    public function destroy(Note $note)
     {
-        //
-    }
+        $note->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return response()->json(['message' => 'Note supprimée avec succès']);
     }
 }
