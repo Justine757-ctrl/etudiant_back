@@ -3,14 +3,23 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 use App\Models\Classe;
 use App\Models\Student;
 use App\Models\Note;
+
 
 class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
+        // 1. Création d'un utilisateur de test par défaut
+        User::factory()->create([
+            'name'     => 'Professeur Admin',
+            'email'    => 'admin@etudiant.com',
+            'password' => Hash::make('password123'), // 🔒 Mot de passe : password123
+        ]);
         // 1. Création de deux classes de test
         $classe1 = Classe::create([
             'nom' => 'Licence 2 Génie Logiciel',
