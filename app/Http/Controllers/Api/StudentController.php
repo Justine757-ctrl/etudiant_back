@@ -50,6 +50,7 @@ class StudentController extends Controller
             'nom' => 'sometimes|string',
             'prenom' => 'sometimes|string',
             'sexe' => 'sometimes|in:M,F',
+            
             'date_naissance' => 'sometimes|date',
             'telephone' => 'sometimes|string',
             'adresse' => 'sometimes|string',

@@ -15,6 +15,7 @@ class Student extends Model
         'nom',
         'prenom',
         'sexe',
+        
         'date_naissance',
         'telephone',
         'adresse',
@@ -25,6 +26,7 @@ class Student extends Model
     public function classe()
     {
         return $this->belongsTo(Classe::class, 'class_id');
+        
     }
 
     // Un étudiant a plusieurs notes
